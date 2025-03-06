@@ -5,10 +5,12 @@ import usersRouter from "./routes/usersRouters.js";
 
 const app = express();
 
-connectDB()
+app.use(express.json());
+app.use(express.urlencoded({extended : true}));
 
 app.use('/api', usersRouter)
 
+connectDB()
 app.listen(3000, () => {
     console.log('Welcome to the server 3000');
 })
