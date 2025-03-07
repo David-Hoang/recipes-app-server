@@ -29,7 +29,7 @@ export const createUser = async (req, res) => {
             })
         return res.status(201).json({message : `L'utilisateur ${first_name} a été ajouté !`})
     } catch (error) {
-        return res.status(400).json({message : `Problème de serveur`})
+        return res.status(500).json('Une erreur est survenue sur le serveur')
     }
 }
 
@@ -39,9 +39,15 @@ export const showSingleUser = async (req, res) => {
     
     try {
         const getUserById = await User.findById(id);
-        return res.status(200).json(getUserById);
+
+        if(!getUserById) {
+            return res.status(404).json({message : `Utilisateur introuvable`})
+        }else{
+            return res.status(200).json(getUserById);
+        }
+
     } catch (error) {
-        return res.status(404).json({message : `Utilisateur introuvable`})
+        return res.status(500).json('Une erreur est survenue sur le serveur')
     }
     
 }
@@ -58,10 +64,17 @@ export const editUser = async (req, res) => {
             email,
             password
         }
+
         const updateUserById = await User.findByIdAndUpdate(id, contentToUpdate, {'new' : true});
-        return res.status(200).json(updateUserById);
+
+        if(!updateUserById) {
+            return res.status(404).json({message : `Utilisateur introuvable`})
+        }else{
+            return res.status(200).json(updateUserById);
+        }
+
     } catch (error) {
-        return res.status(404).json({message : `Utilisateur introuvable`})
+        return res.status(500).json('Une erreur est survenue sur le serveur')
     }
     
 }
@@ -72,8 +85,14 @@ export const deleteUser = async (req, res) => {
 
     try {
         const deleteUserById = await User.findOneAndDelete(id);
-        return res.status(200).json(deleteUserById);
+
+        if(!deleteUserById) {
+            return res.status(404).json({message : `Utilisateur introuvable`})
+        }else{
+            return res.status(200).json(deleteUserById);
+        }
+
     } catch (error) {
-        return res.status(404).json({message : `Utilisateur introuvable`})
+        return res.status(500).json('Une erreur est survenue sur le serveur')
     }
 }

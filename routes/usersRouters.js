@@ -1,4 +1,4 @@
-import {Router} from 'express';
+import { Router } from 'express';
 import { getAllUsers, createUser, showSingleUser, editUser, deleteUser } from "../controllers/userControllers.js";
 import { verifyUserFields } from "../middlewares/verifyUserCreation.js";
 
